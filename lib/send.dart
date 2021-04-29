@@ -9,11 +9,13 @@ class Send extends StatelessWidget {
   Color color2 = Color.fromRGBO(220, 220, 220, 1);
   @override
   Widget build(BuildContext context) {
+    final double devicesHeight = MediaQuery.of(context).size.height;
+    final double devicesWidht = MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Container(
-          padding: EdgeInsets.only(top: 10),
+          padding: EdgeInsets.only(top: devicesHeight * 0.01),
           child: Column(
             children: [
               Row(

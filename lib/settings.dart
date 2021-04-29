@@ -11,10 +11,12 @@ class Settings extends StatefulWidget {
 class SettingsWidgetState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
+    final double devicesHeight = MediaQuery.of(context).size.height;
+    final double devicesWidht = MediaQuery.of(context).size.width;
     return Scaffold(
       body: SafeArea(
         child: Container(
-          padding: EdgeInsets.only(top: 10),
+          padding: EdgeInsets.only(top: devicesHeight * 0.01),
           // color: Colors.grey,
           child: Column(
             children: [
@@ -41,23 +43,49 @@ class SettingsWidgetState extends State<Settings> {
                 margin: EdgeInsets.only(top: 15),
                 child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Dark Mod',
-                          style: TextStyle(fontSize: 18),
+                    Container(
+                      height: 50,
+                      padding: EdgeInsets.symmetric(horizontal: 15),
+                      margin: EdgeInsets.only(bottom: 10),
+                      // color: Colors.yellow,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Dark Mod',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          Switch(
+                              value: User.isSwitch,
+                              onChanged: (value) {
+                                setState(() {
+                                  User.isSwitch = value;
+                                  debugPrint(User.isSwitch.toString());
+                                });
+                              })
+                        ],
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/about');
+                      },
+                      child: Container(
+                        height: 50,
+                        padding: EdgeInsets.symmetric(horizontal: 15),
+                        // color: Colors.red,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Hakkimizda',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            Icon(Icons.arrow_right_alt_sharp),
+                          ],
                         ),
-                        Switch(
-                            value: User.isSwitch,
-                            onChanged: (value) {
-                              setState(() {
-                                User.isSwitch = value;
-                                debugPrint(User.isSwitch.toString());
-                              });
-                            })
-                      ],
-                    )
+                      ),
+                    ),
                   ],
                 ),
               )

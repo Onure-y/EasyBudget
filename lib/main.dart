@@ -4,8 +4,8 @@ import 'package:easy_budget/spend.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_budget/user.dart';
-import 'dart:math';
 
+import 'about.dart';
 import 'movement_list.dart';
 
 void main() {
@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
         '/settings': (context) => Settings(),
         '/send': (context) => Send(),
         '/spend': (context) => Spend(),
+        '/about': (context) => About(),
       },
     );
   }

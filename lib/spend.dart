@@ -70,7 +70,7 @@ class Spend extends StatelessWidget {
                             autofocus: false,
                             decoration: InputDecoration(
                                 suffixIcon: Icon(Icons.attach_money_sharp),
-                                hintText: 'Harcama miktari',
+                                hintText: 'Harcamak İstediğiniz Miktar',
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: BorderSide(
