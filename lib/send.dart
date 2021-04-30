@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 class Send extends StatelessWidget {
   TextEditingController inputController = new TextEditingController();
   int sendValue;
-
+  String time;
   Color color1 = Color.fromRGBO(220, 220, 220, 0);
   Color color2 = Color.fromRGBO(220, 220, 220, 1);
+  String sendMoneyTo;
+
   @override
   Widget build(BuildContext context) {
     final double devicesHeight = MediaQuery.of(context).size.height;
@@ -49,7 +51,11 @@ class Send extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
+                    InkWell(
+                      onTap: () {
+                        sendMoneyTo = 'Eray';
+                      },
+                      child: Container(
                         padding: EdgeInsets.all(10),
                         // color: Colors.purple,
                         child: GestureDetector(
@@ -84,37 +90,45 @@ class Send extends StatelessWidget {
                               )
                             ],
                           ),
-                        )),
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      // color: Colors.purple,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(30),
-                            child: Image(
-                              image: AssetImage('assets/images/avatar-2.png'),
-                              alignment: Alignment.center,
-                              fit: BoxFit.cover,
-                              height: 60,
-                              width: 60,
-                            ),
-                          ),
-                          Column(
-                            children: [
-                              Text('İrem'),
-                              Row(
-                                children: [
-                                  Icon(Icons.credit_card),
-                                  Text('****1078'),
-                                ],
-                              )
-                            ],
-                          )
-                        ],
+                        ),
                       ),
                     ),
+                    InkWell(
+                      onTap: () {
+                        sendMoneyTo = 'Irem';
+                        debugPrint(sendMoneyTo);
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        // color: Colors.purple,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(30),
+                              child: Image(
+                                image: AssetImage('assets/images/avatar-2.png'),
+                                alignment: Alignment.center,
+                                fit: BoxFit.cover,
+                                height: 60,
+                                width: 60,
+                              ),
+                            ),
+                            Column(
+                              children: [
+                                Text('İrem'),
+                                Row(
+                                  children: [
+                                    Icon(Icons.credit_card),
+                                    Text('****1078'),
+                                  ],
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -134,8 +148,10 @@ class Send extends StatelessWidget {
                     ),
                     ElevatedButton(
                       onPressed: () {
+                        TimeOfDay now = TimeOfDay.now();
+                        time = now.format(context);
                         sendValue = int.parse(inputController.text);
-                        Navigator.pop(context, -sendValue);
+                        Navigator.pop(context, [-sendValue, time, sendMoneyTo]);
                       },
                       child: Text('Gonder'),
                     ),

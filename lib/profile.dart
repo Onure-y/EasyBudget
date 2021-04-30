@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-const githubUrl = 'https://github.com/Onure-y';
-
-class About extends StatelessWidget {
+class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double devicesHeight = MediaQuery.of(context).size.height;
@@ -27,28 +25,28 @@ class About extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'Hakkimizda',
+                    'Profil',
                     style: TextStyle(fontSize: 24),
                   ),
                 ],
               ),
               Container(
-                  alignment: Alignment.center,
-                  height: devicesHeight * 0.30,
-                  width: devicesWidht,
-                  child: FaIcon(
-                    FontAwesomeIcons.piggyBank,
-                    size: 100,
-                  )
-                  // color: Colors.red,
-                  ),
+                alignment: Alignment.center,
+                height: devicesHeight * 0.30,
+                width: devicesWidht,
+                child: Image(
+                    image: AssetImage('assets/images/avatar.png'),
+                    alignment: Alignment.center,
+                    fit: BoxFit.cover),
+                // color: Colors.red,
+              ),
               Expanded(
                 child: Container(
                   padding: EdgeInsets.all(10),
                   color: Color.fromRGBO(230, 230, 230, 0.3),
                   width: devicesWidht,
                   child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 35),
+                    margin: EdgeInsets.symmetric(vertical: 10),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [

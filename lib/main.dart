@@ -1,3 +1,4 @@
+import 'package:easy_budget/profile.dart';
 import 'package:easy_budget/send.dart';
 import 'package:easy_budget/settings.dart';
 import 'package:easy_budget/spend.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
         '/send': (context) => Send(),
         '/spend': (context) => Spend(),
         '/about': (context) => About(),
+        '/profile': (context) => Profile(),
       },
     );
   }
@@ -48,32 +50,35 @@ class MainPage extends StatefulWidget {
 class MainPageState extends State<MainPage> {
   var user = User('Onur', 9750);
 
+// İşlemleri tutan Container taslağı
   Widget lastSendContainer(movType, movMoney, movTime) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20),
-      margin: EdgeInsets.only(top: 5),
-      height: 75,
-      decoration: BoxDecoration(
-        // color: Colors.purple[200],
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.grey.shade300, width: 1),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                movType,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-              ),
-              Text(movTime, style: TextStyle(fontWeight: FontWeight.w300))
-            ],
-          ),
-          Text('$movMoney \$'),
-        ],
+    return Expanded(
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        margin: EdgeInsets.only(top: 5),
+        height: 75,
+        decoration: BoxDecoration(
+          // color: Colors.purple[200],
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Colors.grey.shade300, width: 1),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  movType,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                ),
+                Text(movTime, style: TextStyle(fontWeight: FontWeight.w300))
+              ],
+            ),
+            Text('$movMoney \$'),
+          ],
+        ),
       ),
     );
   }
@@ -93,12 +98,17 @@ class MainPageState extends State<MainPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    height: 50,
-                    child: Image(
-                        image: AssetImage('assets/images/avatar.png'),
-                        alignment: Alignment.center,
-                        fit: BoxFit.cover),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/profile');
+                    },
+                    child: Container(
+                      height: 50,
+                      child: Image(
+                          image: AssetImage('assets/images/avatar.png'),
+                          alignment: Alignment.center,
+                          fit: BoxFit.cover),
+                    ),
                   ),
                   Container(
                     height: 50,
@@ -111,7 +121,8 @@ class MainPageState extends State<MainPage> {
                                 builder: (context) => Settings()));
 
                         setState(() {
-                          user.userThemeMode(colorMode);
+                          debugPrint(colorMode.toString());
+                          User.themeMode = user.userThemeMode(colorMode);
                         });
                       },
                       child: Icon(
@@ -163,13 +174,15 @@ class MainPageState extends State<MainPage> {
                   children: [
                     ElevatedButton(
                         onPressed: () async {
-                          final int result = await Navigator.push(context,
+                          final result = await Navigator.push(context,
                               MaterialPageRoute(builder: (context) => Send()));
 
                           setState(() {
-                            user.updateUserBalance(result);
+                            user.updateUserBalance(result[0]);
                             user.updateMovements(
-                                'Eraya Gonderilen para', result);
+                                '${result[2]}\'a Gonderilen para',
+                                result[0],
+                                result[1]);
                           });
                         },
                         child: Row(
@@ -202,7 +215,11 @@ class MainPageState extends State<MainPage> {
                               MaterialPageRoute(builder: (context) => Spend()));
 
                           setState(() {
-                            user.updateMovements(result[0], result[1]);
+                            user.updateMovements(
+                              result[0],
+                              result[1],
+                              result[2],
+                            );
                             user.updateUserBalance(result[1]);
                           });
                         },

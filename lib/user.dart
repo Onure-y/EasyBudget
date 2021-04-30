@@ -13,14 +13,14 @@ class User {
   List lastSendsList = [];
   var movement = Map();
 
-  var movement1 = {'type': 'Alisveris', 'money': -710, 'time': '5.20 PM'};
-  var movement2 = {'type': 'Mutfak', 'money': -550, 'time': '7.50 AM'};
-  var movement3 = {'type': 'Araba Taksidi', 'money': -2100, 'time': '3.15 PM'};
-  var movement4 = {'type': 'Kira', 'money': -1550, 'time': '11.15 AM'};
-  var movement5 = {'type': 'Eğlence', 'money': -250, 'time': '6.10 PM'};
-  var movement6 = {'type': 'Maaş', 'money': 4600, 'time': '8.20 PM'};
-  var movement7 = {'type': 'Freelance İş', 'money': 550, 'time': '11.55 AM'};
-  var movement8 = {'type': 'Ev Taksiti', 'money': -1750, 'time': '9.25 PM'};
+  var movement1 = {'type': 'Alisveris', 'money': -710, 'time': '21.20'};
+  var movement2 = {'type': 'Mutfak', 'money': -550, 'time': '7.50'};
+  var movement3 = {'type': 'Araba Taksidi', 'money': -2100, 'time': '9.15'};
+  var movement4 = {'type': 'Kira', 'money': -1550, 'time': '17.15'};
+  var movement5 = {'type': 'Eğlence', 'money': -250, 'time': '6.10'};
+  var movement6 = {'type': 'Maaş', 'money': 4600, 'time': '8.20'};
+  var movement7 = {'type': 'Freelance İş', 'money': 550, 'time': '11.55'};
+  var movement8 = {'type': 'Ev Taksiti', 'money': -1750, 'time': '19.25'};
 
   User(name, totalBalance) {
     this.name = name;
@@ -48,11 +48,11 @@ class User {
     this.totalBalance += value;
   }
 
-  updateMovements(type, money) {
+  updateMovements(type, money, time) {
     var mov = {
       'type': type,
       'money': money,
-      'time': '5.50 PM',
+      'time': time,
     };
 
     this.movements.add(mov);
@@ -69,9 +69,9 @@ class User {
 
   userThemeMode(bool switcher) {
     if (switcher) {
-      themeMode = Brightness.dark;
+      return Brightness.dark;
     } else {
-      themeMode = Brightness.light;
+      return Brightness.light;
     }
   }
 }

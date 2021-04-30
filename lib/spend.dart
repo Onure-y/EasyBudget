@@ -5,6 +5,7 @@ class Spend extends StatelessWidget {
   TextEditingController moneyInputController = new TextEditingController();
   String typeInput;
   int moneyInput;
+  String time;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,9 +93,11 @@ class Spend extends StatelessWidget {
                 width: 160,
                 child: ElevatedButton(
                   onPressed: () {
+                    TimeOfDay now = TimeOfDay.now();
+                    time = now.format(context);
                     typeInput = typeInputController.text;
                     moneyInput = int.parse(moneyInputController.text);
-                    Navigator.pop(context, [typeInput, moneyInput]);
+                    Navigator.pop(context, [typeInput, moneyInput, time]);
                   },
                   autofocus: false,
                   style: ButtonStyle(
