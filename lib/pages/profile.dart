@@ -1,3 +1,4 @@
+import 'package:easy_budget/Widgets/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -13,23 +14,7 @@ class Profile extends StatelessWidget {
           padding: EdgeInsets.only(top: devicesHeight * 0.01),
           child: Column(
             children: [
-              Row(
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Icon(
-                      Icons.arrow_back,
-                      color: Colors.black,
-                    ),
-                  ),
-                  Text(
-                    'Profil',
-                    style: TextStyle(fontSize: 24),
-                  ),
-                ],
-              ),
+              navBar(context, 'Profil'),
               Container(
                 alignment: Alignment.center,
                 height: devicesHeight * 0.30,

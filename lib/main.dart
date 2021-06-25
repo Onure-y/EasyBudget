@@ -1,15 +1,22 @@
-import 'package:easy_budget/profile.dart';
-import 'package:easy_budget/send.dart';
-import 'package:easy_budget/settings.dart';
-import 'package:easy_budget/spend.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_budget/data/user_data.dart';
+import 'package:easy_budget/pages/exchange_rates.dart';
+import 'package:easy_budget/pages/movement_list.dart';
+import 'package:easy_budget/pages/profile.dart';
+import 'package:easy_budget/pages/register.dart';
+import 'package:easy_budget/pages/send.dart';
+import 'package:easy_budget/pages/spend.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:easy_budget/user.dart';
+import 'package:easy_budget/pages/login.dart';
+import 'package:easy_budget/pages/settings.dart';
+import 'package:easy_budget/pages/about.dart';
 
-import 'about.dart';
-import 'movement_list.dart';
-
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -25,16 +32,20 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-          primaryColor: Colors.grey.shade400, brightness: User.themeMode),
+      theme: ThemeData(primaryColor: Colors.grey.shade400),
       title: 'Budget App',
+      initialRoute: '/login',
       routes: {
         '/': (context) => MainPage(),
-        '/settings': (context) => Settings(),
         '/send': (context) => Send(),
         '/spend': (context) => Spend(),
         '/about': (context) => About(),
+        '/movements': (context) => MovList(),
         '/profile': (context) => Profile(),
+        '/exchanges': (context) => ExchangeRates(),
+        '/settings': (context) => AppSettings(),
+        '/login': (context) => LoginScreen(),
+        '/register': (context) => RegisterScreen(),
       },
     );
   }
@@ -48,40 +59,7 @@ class MainPage extends StatefulWidget {
 }
 
 class MainPageState extends State<MainPage> {
-  var user = User('Onur', 9750);
-
 // İşlemleri tutan Container taslağı
-  Widget lastSendContainer(movType, movMoney, movTime) {
-    return Expanded(
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20),
-        margin: EdgeInsets.only(top: 5),
-        height: 75,
-        decoration: BoxDecoration(
-          // color: Colors.purple[200],
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Colors.grey.shade300, width: 1),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  movType,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                ),
-                Text(movTime, style: TextStyle(fontWeight: FontWeight.w300))
-              ],
-            ),
-            Text('$movMoney \$'),
-          ],
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,15 +93,7 @@ class MainPageState extends State<MainPage> {
                     width: 50,
                     child: TextButton(
                       onPressed: () async {
-                        final bool colorMode = await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Settings()));
-
-                        setState(() {
-                          debugPrint(colorMode.toString());
-                          User.themeMode = user.userThemeMode(colorMode);
-                        });
+                        Navigator.pushNamed(context, '/settings');
                       },
                       child: Icon(
                         Icons.settings,
@@ -153,11 +123,7 @@ class MainPageState extends State<MainPage> {
                     Container(
                       padding: EdgeInsets.only(bottom: 10),
                       width: 275,
-                      child: Text(
-                        '${user.totalBalance} \$ ',
-                        style: budgetStyle,
-                        textAlign: TextAlign.center,
-                      ),
+                      child: totalBalance(),
                     ),
                   ],
                 ),
@@ -167,40 +133,20 @@ class MainPageState extends State<MainPage> {
               constraints: const BoxConstraints(
                   minWidth: double.infinity, maxHeight: 200),
               child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 50.0),
                 // color: Colors.purple,
                 height: 70,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
-                        onPressed: () async {
-                          final result = await Navigator.push(context,
+                        onPressed: () {
+                          Navigator.push(context,
                               MaterialPageRoute(builder: (context) => Send()));
-
-                          setState(() {
-                            user.updateUserBalance(result[0]);
-                            user.updateMovements(
-                                '${result[2]}\'a Gonderilen para',
-                                result[0],
-                                result[1]);
-                          });
                         },
-                        child: Row(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(right: 10),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(100),
-                                color: Colors.white,
-                              ),
-                              child: Icon(
-                                Icons.arrow_forward,
-                                color: Colors.blue.shade200,
-                                size: 40,
-                              ),
-                            ),
-                            Text('Gönder'),
-                          ],
+                        child: Icon(
+                          Icons.arrow_downward_rounded,
+                          color: Colors.white,
                         ),
                         style: ElevatedButton.styleFrom(
                           primary: Colors.blue.shade200,
@@ -210,39 +156,22 @@ class MainPageState extends State<MainPage> {
                           ),
                         )),
                     ElevatedButton(
-                        onPressed: () async {
-                          final result = await Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => Spend()));
-
-                          setState(() {
-                            user.updateMovements(
-                              result[0],
-                              result[1],
-                              result[2],
-                            );
-                            user.updateUserBalance(result[1]);
-                          });
-                        },
-                        child: Icon(Icons.arrow_back),
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.blue.shade200,
-                          minimumSize: Size(60, 60),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                        )),
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Spend()));
+                      },
+                      child: Icon(Icons.arrow_upward_rounded),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.blue.shade200,
+                        minimumSize: Size(60, 60),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                    ),
                     ElevatedButton(
                       onPressed: () {
-                        user.calcPnl();
-                        var userList = [
-                          user.movements,
-                          user.totalBalance,
-                          user.totalPnl
-                        ];
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MovList(userList)));
+                        Navigator.pushNamed(context, '/movements');
                       },
                       child: Icon(
                         Icons.account_balance_wallet_sharp,
@@ -277,18 +206,7 @@ class MainPageState extends State<MainPage> {
                             fontWeight: FontWeight.bold, fontSize: 18),
                       ),
                     ),
-                    lastSendContainer(
-                        user.lastSendsList[0]['type'],
-                        user.lastSendsList[0]['money'],
-                        user.lastSendsList[0]['time']),
-                    lastSendContainer(
-                        user.lastSendsList[1]['type'],
-                        user.lastSendsList[1]['money'],
-                        user.lastSendsList[1]['time']),
-                    lastSendContainer(
-                        user.lastSendsList[2]['type'],
-                        user.lastSendsList[2]['money'],
-                        user.lastSendsList[2]['time']),
+                    streamBuilderWidget(),
                   ],
                 ),
               ),
