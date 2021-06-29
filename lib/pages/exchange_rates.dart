@@ -46,7 +46,7 @@ class _ExchangeRatesState extends State<ExchangeRates> {
                               title: Text(
                                 snapshot.data['rates'][myRates[index]]
                                     .toString(),
-                                style: TextStyle(color: Colors.greenAccent),
+                                style: TextStyle(color: Colors.green),
                               ),
                               trailing: Text('${myRates[index]}/$turkishLiras'),
                             )
