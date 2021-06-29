@@ -188,13 +188,14 @@ class MainPageState extends State<MainPage> {
                 ),
               ),
             ),
+            Spacer(),
             ConstrainedBox(
               constraints: const BoxConstraints(
-                  minWidth: double.infinity, maxHeight: 320),
+                  minWidth: double.infinity, maxHeight: 400),
               child: Container(
-                // color: Colors.purple,
                 padding: EdgeInsets.all(20),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Container(

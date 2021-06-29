@@ -100,7 +100,7 @@ packages:
     source: hosted
     version: "2.0.1"
   firebase_analytics_web:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: firebase_analytics_web
       url: "https://pub.dartlang.org"
@@ -171,7 +171,7 @@ packages:
     source: hosted
     version: "9.0.0"
   http:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: http
       url: "https://pub.dartlang.org"
@@ -206,7 +206,7 @@ packages:
     source: hosted
     version: "0.12.10"
   meta:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: meta
       url: "https://pub.dartlang.org"
