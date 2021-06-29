@@ -28,12 +28,13 @@ class SettingsState extends State<AppSettings> {
                   children: [
                     settingsTab(context, '/about', 'Hakkimizda'),
                     settingsTab(context, '/exchanges', 'Doviz kurlari'),
+                    settingsTab(context, '/overview', 'Genel Bakis'),
                     InkWell(
                       onTap: () async {
                         await auth.signOut();
-                        Navigator.pop(context);
-                        Navigator.pop(context);
+                        Navigator.popUntil(context, (_) => true);
                         Navigator.popAndPushNamed(context, '/login');
+                        print('a');
                       },
                       child: Container(
                         height: 50,

@@ -40,18 +40,20 @@ class _ExchangeRatesState extends State<ExchangeRates> {
                       itemCount: myRates.length,
                       itemBuilder: (BuildContext context, int index) {
                         return Card(
+                            elevation: 5,
                             child: Column(
-                          children: [
-                            ListTile(
-                              title: Text(
-                                snapshot.data['rates'][myRates[index]]
-                                    .toString(),
-                                style: TextStyle(color: Colors.green),
-                              ),
-                              trailing: Text('${myRates[index]}/$turkishLiras'),
-                            )
-                          ],
-                        ));
+                              children: [
+                                ListTile(
+                                  title: Text(
+                                    snapshot.data['rates'][myRates[index]]
+                                        .toString(),
+                                    style: TextStyle(color: Colors.green),
+                                  ),
+                                  trailing:
+                                      Text('${myRates[index]}/$turkishLiras'),
+                                )
+                              ],
+                            ));
                       });
                 } else if (snapshot.hasError) {
                   print(snapshot.error);

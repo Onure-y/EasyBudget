@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_budget/data/user_data.dart';
 import 'package:easy_budget/pages/exchange_rates.dart';
 import 'package:easy_budget/pages/movement_list.dart';
+import 'package:easy_budget/pages/overview.dart';
 import 'package:easy_budget/pages/profile.dart';
 import 'package:easy_budget/pages/register.dart';
 import 'package:easy_budget/pages/send.dart';
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
         '/settings': (context) => AppSettings(),
         '/login': (context) => LoginScreen(),
         '/register': (context) => RegisterScreen(),
+        '/overview': (context) => Overview(),
       },
     );
   }
