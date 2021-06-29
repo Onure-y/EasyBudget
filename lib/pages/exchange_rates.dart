@@ -33,7 +33,7 @@ class _ExchangeRatesState extends State<ExchangeRates> {
               future: fecthData(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData) {
-                  var TurkishLiras = snapshot.data['base'];
+                  var turkishLiras = snapshot.data['base'];
                   var myRates = ['USD', 'EUR', 'JPY', 'GBP'];
                   return ListView.builder(
                       padding: EdgeInsets.all(10),
@@ -48,7 +48,7 @@ class _ExchangeRatesState extends State<ExchangeRates> {
                                     .toString(),
                                 style: TextStyle(color: Colors.green),
                               ),
-                              trailing: Text('${myRates[index]}/$TurkishLiras'),
+                              trailing: Text('${myRates[index]}/$turkishLiras'),
                             )
                           ],
                         ));
